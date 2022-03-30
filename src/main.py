@@ -50,6 +50,57 @@ def get_todos():
 
     return jsonify(all_todos), 200
 
+@app.route('/todo', methods=['POST'])
+def post_todos():
+    body = request.get_json()
+
+    todo1 = Todo(task= body['task'], done= body['done'])
+    db.session.add(todo1)
+    db.session.commit()
+    todo_query = Todo.query.all()
+    all_todos = list(map(lambda x: x.serialize(), todo_query))
+
+    return jsonify(all_todos), 200
+
+    
+
+@app.route('/todo/<id>', methods=['PUT'])
+def edit_todos(id):
+    body = request.get_json()
+
+    todo_id = Todo.query.get(id)
+    if todo_id is None:
+        raise APIException('User not found', status_code=404)
+
+    if "task" in body:
+        todo_id.task = body["task"]
+    if "done" in body:
+        todo_id.done= body["done"]
+        db.session.commit()
+
+    todo_query = Todo.query.all()
+    all_todos = list(map(lambda x: x.serialize(), todo_query))
+
+    return jsonify(all_todos), 200
+
+    
+
+@app.route('/todo/<int:id>', methods=['DELETE'])
+def delete_todos(id):
+    todo_id = Todo.query.get(id)
+    if todo_id is None:
+        raise APIException('User not found', status_code=404)
+   
+    db.session.delete(todo_id)
+    db.session.commit()
+
+    
+    todo_query = Todo.query.all()
+    all_todos = list(map(lambda x: x.serialize(), todo_query))
+
+    return jsonify(all_todos), 200
+    
+
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
