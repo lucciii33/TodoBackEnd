@@ -72,7 +72,7 @@ def edit_todos(id):
     if todo_id is None:
         raise APIException('User not found', status_code=404)
 
-    if "task" in body:
+    if "label" in body:
         todo_id.label = body["label"]
     if "done" in body:
         todo_id.done= body["done"]
