@@ -73,7 +73,7 @@ def edit_todos(id):
         raise APIException('User not found', status_code=404)
 
     if "task" in body:
-        todo_id.task = body["task"]
+        todo_id.label = body["label"]
     if "done" in body:
         todo_id.done= body["done"]
         db.session.commit()
