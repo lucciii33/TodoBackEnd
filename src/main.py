@@ -54,7 +54,7 @@ def get_todos():
 def post_todos():
     body = request.get_json()
 
-    todo1 = Todo(task= body['task'], done= body['done'])
+    todo1 = Todo(label= body['label'], done= body['done'])
     db.session.add(todo1)
     db.session.commit()
     todo_query = Todo.query.all()
