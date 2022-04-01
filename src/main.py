@@ -64,7 +64,7 @@ def post_todos():
 
     
 
-@app.route('/todo/<id>', methods=['PUT'])
+@app.route('/todo/<int:id>', methods=['PUT'])
 def edit_todos(id):
     body = request.get_json()
 

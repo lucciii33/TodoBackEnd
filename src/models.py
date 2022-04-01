@@ -24,8 +24,8 @@ class Todo(db.Model):
     
 
     def __repr__(self):
-        return '<Todo %r>' % self.label
-
+        return '<Todo %r>' % self.id
+        #should be id?
     def serialize(self):
         return {
             "id": self.id,
